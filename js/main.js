@@ -1,116 +1,152 @@
-$(document).ready(function() {
+$(document).ready(function () {
+    // Auto-hiding navbar
     $("#navbar-auto-hidden").autoHidingNavbar();
-    $(".button-mobile-menu").click(function(){
-        $("#mobile-menu-list").animate({width: 'toggle'},200);
-    });	
-    $('.all-elements-tooltip').tooltip('hide');
-    $('.userConBtn').on('click', function(e){
-        e.preventDefault();
-        var code=$(this).attr('data-code');
-        $.ajax({
-            url: './process/selectDataUser.php',
-            type: 'POST',
-            data: 'code='+code,
-            success:function(data){
-                $('#UserConData').html(data);
-                $('#ModalUpUser').modal({
-                    show: true,
-                    backdrop: "static"
-                });
-            }
-        });
-        return false;
-    });
-    $('.exit-system').on('click', function(e){
-        e.preventDefault();
-        swal({
-            title: "¿Quieres salir del sistema?",   
-            text: "Estas seguro que quieres cerrar la sesión actual?",   
-            type: "warning",   
-            showCancelButton: true,   
-            confirmButtonColor: "#16a085",   
-            confirmButtonText: "Si, salir",
-            cancelButtonText: "No, cancelar",
-            closeOnConfirm: false,
-            animation: "slide"
-        }, function(){
-            window.location='process/logout.php';
-        });
-    });
-    /*Funcion para enviar datos de formularios con ajax*/
-    $('.FormCatElec').submit(function(e){
-        e.preventDefault();
-        var StatusInfo='<div class="content-send-form"></div>';
-        var formType=$(this).attr('data-form');
-        var form=$(this);
-        var formdata=false;
-        if (window.FormData){
-            formdata = new FormData(form[0]);
-        }
-        var formAction = form.attr('action');
-        var metodo=form.attr('method');
 
-        if(formType=="login"){
+    // Mobile menu toggle
+    $(".button-mobile-menu").click(function () {
+        $("#mobile-menu-list").animate({ width: "toggle" }, 200);
+    });
+
+    // Tooltip initialization
+    $(".all-elements-tooltip").tooltip("hide");
+
+    // User configuration modal
+    $(".userConBtn").on("click", function (e) {
+        e.preventDefault();
+        const code = $(this).data("code");
+        if (!code) return;
+        $.ajax({
+            url: "./process/selectDataUser.php",
+            type: "POST",
+            data: { code },
+            beforeSend: function () {
+                $("#UserConData").html('<p class="text-center">Cargando...</p>');
+            },
+            success: function (data) {
+                $("#UserConData").html(data);
+                $("#ModalUpUser").modal({
+                    show: true,
+                    backdrop: "static",
+                });
+            },
+            error: function () {
+                $("#UserConData").html('<p class="text-danger">Error al cargar los datos del usuario.</p>');
+            },
+        });
+    });
+
+    // Logout confirmation
+    $(".exit-system").on("click", function (e) {
+        e.preventDefault();
+        swal(
+            {
+                title: "¿Quieres salir del sistema?",
+                text: "Estas seguro que quieres cerrar la sesión actual?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#16a085",
+                confirmButtonText: "Sí, salir",
+                cancelButtonText: "No, cancelar",
+                closeOnConfirm: false,
+                animation: "slide",
+            },
+            function () {
+                window.location = "process/logout.php";
+            }
+        );
+    });
+
+    // Form submission with Ajax
+    $(".FormCatElec").submit(function (e) {
+        e.preventDefault();
+
+        const form = $(this);
+        const formType = form.data("form");
+        const formAction = form.attr("action");
+        const method = form.attr("method") || "POST";
+        const formData = window.FormData ? new FormData(form[0]) : form.serialize();
+
+        const handleAjaxSuccess = function (data) {
+            if (formType === "login") {
+                $(".ResFormL").html(data);
+            } else {
+                swal({
+                    title: "Operación exitosa",
+                    text: "Se completó la operación solicitada.",
+                    type: "success",
+                    confirmButtonText: "Aceptar",
+                });
+                $(".ResbeforeSend").html(data);
+            }
+        };
+
+        const handleAjaxError = function () {
+            const errorMsg = "Ha ocurrido un error en el sistema. Inténtelo nuevamente.";
+            if (formType === "login") {
+                $(".ResFormL").html(errorMsg);
+            } else {
+                $(".ResbeforeSend").html(errorMsg);
+            }
+        };
+
+        if (formType === "login") {
+            // Login specific Ajax handling
+            $(".ResFormL").html("Iniciando sesión...");
             $.ajax({
-                type: metodo,
+                type: method,
                 url: formAction,
-                data: formdata ? formdata : form.serialize(),
+                data: formData,
                 cache: false,
                 contentType: false,
                 processData: false,
-                beforeSend: function(){
-                    $(".ResFormL").html('Iniciando sesión...');
+                success: handleAjaxSuccess,
+                error: handleAjaxError,
+            });
+        } else {
+            // General form submission with confirmation
+            swal(
+                {
+                    title: "¿Estás seguro?",
+                    text: "Quieres realizar la operación solicitada. Esta acción no se puede deshacer.",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#16a085",
+                    confirmButtonText: "Sí, realizar",
+                    cancelButtonText: "No, cancelar",
+                    closeOnConfirm: false,
                 },
-                error: function() {
-                    $(".ResFormL").html("Ha ocurrido un error en el sistema");
-                },
-                success: function (data) {
-                    $(".ResFormL").html(data);
+                function () {
+                    $.ajax({
+                        type: method,
+                        url: formAction,
+                        data: formData,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        beforeSend: function () {
+                            $(".ResbeforeSend").html(
+                                '<div class="content-send-form"><p class="text-center">Procesando...</p><div class="progress progress-striped active"><div class="progress-bar"></div></div></div>'
+                            );
+                        },
+                        success: handleAjaxSuccess,
+                        error: handleAjaxError,
+                        xhr: function () {
+                            const xhr = new window.XMLHttpRequest();
+                            xhr.upload.addEventListener(
+                                "progress",
+                                function (evt) {
+                                    if (evt.lengthComputable) {
+                                        const percentComplete = parseInt((evt.loaded / evt.total) * 100);
+                                        $(".progress-bar").css("width", percentComplete + "%");
+                                    }
+                                },
+                                false
+                            );
+                            return xhr;
+                        },
+                    });
                 }
-            });
-            return false;
-        }else{
-            swal({
-                title: "¿Estás seguro?",   
-                text: "Quieres realizar la operación solicitada, una vez realizada la operación no se podrá revertir",   
-                type: "warning",   
-                showCancelButton: true,   
-                confirmButtonColor: "#16a085",   
-                confirmButtonText: "Si, realizar",
-                cancelButtonText: "No, cancelar",
-                closeOnConfirm: false,
-                animation: "slide-from-top"
-            }, function(){
-                $.ajax({
-                    xhr: function(){
-                        var xhr = new window.XMLHttpRequest();
-                        xhr.upload.addEventListener("progress", function(evt) {
-                          if (evt.lengthComputable) {
-                            var percentComplete = evt.loaded / evt.total;
-                            percentComplete = parseInt(percentComplete * 100);
-                            $('.content-send-form').html('<p class="text-center" style="padding-top: 10px;">Procesando... ('+percentComplete+'%)</p><div class="progress progress-striped active"><div class="progress-bar" style="width: '+percentComplete+'%"></div></div>');
-                          }
-                        }, false);
-                        return xhr;
-                    },
-                    type: metodo,
-                    url: formAction,
-                    data: formdata ? formdata : form.serialize(),
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    beforeSend: function(){
-                        $(".ResbeforeSend").html(StatusInfo);
-                    },
-                    error: function() {
-                        $(".ResbeforeSend").html("Ha ocurrido un error en el sistema");
-                    },
-                    success: function (data) {
-                        $(".ResbeforeSend").html(data);
-                    }
-                });
-                return false;
-            });
+            );
         }
     });
 });

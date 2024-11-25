@@ -14,7 +14,7 @@
         <h1>REGISTRO </h1>
       </div>
       <p class="lead text-center">
-        Gracias Registarte en E-Market espero que disfrutes el comprar en nuestra tienda
+        Gracias Registarte en Click&Shop espero que disfrutes el comprar en nuestra tienda
       </p>
       <div class="row">
         <div class="col-sm-5 text-center">

@@ -1,9 +1,9 @@
 <?php
 session_start();
-if(isset($_POST['codigo'])){
+if (isset($_POST['codigo'])) {
     $codigo = $_POST['codigo'];
-    foreach($_SESSION['carro'] as $indice => $producto){
-        if($producto['producto'] == $codigo){
+    foreach ($_SESSION['carro'] as $indice => $producto) {
+        if ($producto['producto'] == $codigo) {
             unset($_SESSION['carro'][$indice]);
             $_SESSION['carro'] = array_values($_SESSION['carro']); // Reindexar el array
             break;

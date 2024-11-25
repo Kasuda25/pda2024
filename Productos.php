@@ -19,13 +19,14 @@ include './Consultas/consultasSql.php';
       </div>
       <?php
       $checkAllCat = ejecutar::consultar("SELECT * FROM categoria");
-      if (mysqli_num_rows($checkAllCat) >= 1) :
-      ?>
+      if (mysqli_num_rows($checkAllCat) >= 1):
+        ?>
         <div class="container-fluid">
           <div class="row">
             <div class="col-xs-12 col-md-4">
               <div class="dropdown">
-                <button class="btn btn-primary btn-raised dropdown-toggle" type="button" id="drpdowncategory" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <button class="btn btn-primary btn-raised dropdown-toggle" type="button" id="drpdowncategory"
+                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                   Seleccione una categoría &nbsp;
                   <span class="caret"></span>
                 </button>
@@ -46,7 +47,8 @@ include './Consultas/consultasSql.php';
                 <div class="form-group">
                   <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
-                    <input type="text" id="addon1" class="form-control" name="term" required="" title="Escriba nombre o marca del producto">
+                    <input type="text" id="addon1" class="form-control" name="term" required=""
+                      title="Escriba nombre o marca del producto">
                     <span class="input-group-btn">
                       <button class="btn btn-info btn-raised" type="submit">Buscar</button>
                     </span>
@@ -65,7 +67,7 @@ include './Consultas/consultasSql.php';
             $mysqli = mysqli_connect(SERVER, USER, PASS, BD);
             mysqli_set_charset($mysqli, "utf8");
 
-            $pagina = isset($_GET['pag']) ? (int)$_GET['pag'] : 1;
+            $pagina = isset($_GET['pag']) ? (int) $_GET['pag'] : 1;
             $regpagina = 20;
             $inicio = ($pagina > 1) ? (($pagina * $regpagina) - $regpagina) : 0;
 
@@ -82,49 +84,50 @@ include './Consultas/consultasSql.php';
             if (mysqli_num_rows($consultar_productos) >= 1) {
               echo '<h3 class="text-center">Se muestran los productos de la categoría <strong>"' . $datCat['Nombre'] . '"</strong></h3><br>';
               while ($prod = mysqli_fetch_array($consultar_productos, MYSQLI_ASSOC)) {
-            ?>
+                ?>
                 <div class="col-xs-12 col-sm-6 col-md-4">
                   <div class="thumbnail">
                     <img class="img-product" src="./imagenes/img-products/<?php if ($prod['Imagen'] != "" && is_file("./imagenes/img-products/" . $prod['Imagen'])) {
-                                                                          echo $prod['Imagen'];
-                                                                        } else {
-                                                                          echo "default.png";
-                                                                        } ?>
+                      echo $prod['Imagen'];
+                    } else {
+                      echo "default.png";
+                    } ?>
                            ">
                     <div class="caption">
                       <h3><?php echo $prod['Marca']; ?></h3>
                       <p><?php echo $prod['NombreProd']; ?></p>
-                      <?php if ($prod['Descuento'] > 0) : ?>
+                      <?php if ($prod['Descuento'] > 0): ?>
                         <p>
                           <?php
                           $pref = number_format($prod['Precio'] - ($prod['Precio'] * ($prod['Descuento'] / 100)), 2, '.', '');
                           echo $prod['Descuento'] . "% descuento: $" . $pref;
                           ?>
                         </p>
-                      <?php else : ?>
+                      <?php else: ?>
                         <p>$<?php echo $prod['Precio']; ?></p>
                       <?php endif; ?>
                       <p class="text-center">
-                        <a href="infoProd.php?CodigoProd=<?php echo $prod['CodigoProd']; ?>" class="btn btn-primary btn-raised btn-sm btn-block"><i class="fa fa-plus"></i>&nbsp; Detalles</a>
+                        <a href="infoProd.php?CodigoProd=<?php echo $prod['CodigoProd']; ?>"
+                          class="btn btn-primary btn-raised btn-sm btn-block"><i class="fa fa-plus"></i>&nbsp; Detalles</a>
                       </p>
 
                     </div>
                   </div>
                 </div>
-              <?php
+                <?php
               }
-              if ($numeropaginas > 0) :
-              ?>
+              if ($numeropaginas > 0):
+                ?>
                 <div class="clearfix"></div>
                 <div class="text-center">
                   <ul class="pagination">
-                    <?php if ($pagina == 1) : ?>
+                    <?php if ($pagina == 1): ?>
                       <li class="disabled">
                         <a>
                           <span aria-hidden="true">&laquo;</span>
                         </a>
                       </li>
-                    <?php else : ?>
+                    <?php else: ?>
                       <li>
                         <a href="productos.php?categ=<?php echo $categoria; ?>&pag=<?php echo $pagina - 1; ?>">
                           <span aria-hidden="true">&laquo;</span>
@@ -144,13 +147,13 @@ include './Consultas/consultasSql.php';
                     ?>
 
 
-                    <?php if ($pagina == $numeropaginas) : ?>
+                    <?php if ($pagina == $numeropaginas): ?>
                       <li class="disabled">
                         <a>
                           <span aria-hidden="true">&raquo;</span>
                         </a>
                       </li>
-                    <?php else : ?>
+                    <?php else: ?>
                       <li>
                         <a href="productos.php?categ=<?php echo $categoria; ?>&pag=<?php echo $pagina + 1; ?>">
                           <span aria-hidden="true">&raquo;</span>
@@ -159,18 +162,18 @@ include './Consultas/consultasSql.php';
                     <?php endif; ?>
                   </ul>
                 </div>
-            <?php
+                <?php
               endif;
             } else {
               echo '<h2 class="text-center">Lo sentimos, no hay productos registrados en la categoría <strong>"' . $datCat['Nombre'] . '"</strong></h2>';
             }
             ?>
           </div>
-      <?php
+          <?php
         } else {
-            echo '<h2 class="text-center">Por favor seleccione una categoría para empezar</h2>';
+          echo '<h2 class="text-center">Por favor seleccione una categoría para empezar</h2>';
         }
-      else :
+      else:
         echo '<h2 class="text-center">Lo sentimos, no hay productos ni categorías registradas en la tienda</h2>';
       endif;
       ?>

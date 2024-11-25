@@ -5,8 +5,10 @@ define("SERVER", "localhost");
 define("BD", "market");
 
 
-class ejecutar {
-    public static function conectar() {
+class ejecutar
+{
+    public static function conectar()
+    {
         $con = mysqli_connect(SERVER, USER, PASS, BD);
         if (!$con) {
             die("Error en el servidor, verifique sus datos: " . mysqli_connect_error());
@@ -19,7 +21,8 @@ class ejecutar {
         return $con;
     }
 
-    public static function consultar($query) {
+    public static function consultar($query)
+    {
         $conexion = self::conectar();
         $resultado = mysqli_query($conexion, $query);
 
@@ -30,28 +33,34 @@ class ejecutar {
         return $resultado;
     }
 
-    public static function cerrarConexion($conexion) {
+    public static function cerrarConexion($conexion)
+    {
         mysqli_close($conexion);
     }
 }
 
-class consultas {
-    public static function InsertSQL($tabla, $campos, $valores) {
+class consultas
+{
+    public static function InsertSQL($tabla, $campos, $valores)
+    {
         $query = "INSERT INTO $tabla ($campos) VALUES($valores)";
         return ejecutar::consultar($query);
     }
 
-    public static function DeleteSQL($tabla, $condicion) {
+    public static function DeleteSQL($tabla, $condicion)
+    {
         $query = "DELETE FROM $tabla WHERE $condicion";
         return ejecutar::consultar($query);
     }
 
-    public static function UpdateSQL($tabla, $campos, $condicion) {
+    public static function UpdateSQL($tabla, $campos, $condicion)
+    {
         $query = "UPDATE $tabla SET $campos WHERE $condicion";
         return ejecutar::consultar($query);
     }
 
-    public static function clean_string($val) {
+    public static function clean_string($val)
+    {
         $val = trim($val);
         $val = stripslashes($val);
         $val = htmlspecialchars($val, ENT_QUOTES, 'UTF-8');

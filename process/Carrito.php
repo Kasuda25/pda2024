@@ -2,14 +2,14 @@
 error_reporting(E_PARSE);
 include '../Consultas/consultasSql.php';
 session_start();
-$codigo=consultas::clean_string($_POST['codigo']);
-$cantidad=consultas::clean_string($_POST['cantidad']);
-if(empty($_SESSION['carro'][$codigo]))
-{
-	$_SESSION['carro'][$codigo] = array('producto' => $codigo, 
-                                        'cantidad' => $cantidad
-                                        );
-	echo '<script>
+$codigo = consultas::clean_string($_POST['codigo']);
+$cantidad = consultas::clean_string($_POST['cantidad']);
+if (empty($_SESSION['carro'][$codigo])) {
+    $_SESSION['carro'][$codigo] = array(
+        'producto' => $codigo,
+        'cantidad' => $cantidad
+    );
+    echo '<script>
         swal({
         title: "Producto agregado",
         text: "Quieres ver el carrito de compras?",
@@ -25,8 +25,8 @@ if(empty($_SESSION['carro'][$codigo]))
             window.location="carrito.php";
         });
     </script>';
-}else{
-	echo '<script>
+} else {
+    echo '<script>
         swal({
         title: "ERROR",
         text: "El producto ya fue agregado al carrito. Quieres ver el carrito de compras?",

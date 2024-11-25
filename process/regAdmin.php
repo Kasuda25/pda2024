@@ -2,21 +2,21 @@
 session_start();
 include '../Consultas/consultasSql.php';
 
-$nameAdmin=consultas::clean_string($_POST['admin-name']);
-$passAdmin1=consultas::clean_string($_POST['admin-pass1']);
-$passAdmin2=consultas::clean_string($_POST['admin-pass2']);
+$nameAdmin = consultas::clean_string($_POST['admin-name']);
+$passAdmin1 = consultas::clean_string($_POST['admin-pass1']);
+$passAdmin2 = consultas::clean_string($_POST['admin-pass2']);
 
-if($passAdmin1!=$passAdmin2){
-    echo '<script>swal("ERROR", "Las contraseñas que acaba de ingresar no coinciden", "error");</script>';
-    exit();
+if ($passAdmin1 != $passAdmin2) {
+  echo '<script>swal("ERROR", "Las contraseñas que acaba de ingresar no coinciden", "error");</script>';
+  exit();
 }
 
-$passAdminFinal=md5($passAdmin1);
+$passAdminFinal = md5($passAdmin1);
 
-$verificar=ejecutar::consultar("SELECT * FROM administrador WHERE Nombre='".$nameAdmin."'");
-if(mysqli_num_rows($verificar)<=0){
-    if(consultas::InsertSQL("administrador", "Nombre, Clave", "'$nameAdmin','$passAdminFinal'")){
-        echo '<script>
+$verificar = ejecutar::consultar("SELECT * FROM administrador WHERE Nombre='" . $nameAdmin . "'");
+if (mysqli_num_rows($verificar) <= 0) {
+  if (consultas::InsertSQL("administrador", "Nombre, Clave", "'$nameAdmin','$passAdminFinal'")) {
+    echo '<script>
             swal({
               title: "Administrador registrado",
               text: "El administrador se registró con éxito",
@@ -36,9 +36,9 @@ if(mysqli_num_rows($verificar)<=0){
               }
             });
         </script>';
-    }else{
-       echo '<script>swal("ERROR", "Ocurrió un error inesperado, por favor intente nuevamente", "error");</script>';
-    }
-}else{
-    echo '<script>swal("ERROR", "El nombre de usuario que acaba de ingresar ya se encuentra registrado, por favor elija otro", "error");</script>';
+  } else {
+    echo '<script>swal("ERROR", "Ocurrió un error inesperado, por favor intente nuevamente", "error");</script>';
+  }
+} else {
+  echo '<script>swal("ERROR", "El nombre de usuario que acaba de ingresar ya se encuentra registrado, por favor elija otro", "error");</script>';
 }

@@ -1,14 +1,14 @@
 <?php
 include '../Consultas/consultasSql.php';
 
-$nitOldProveUp=consultas::clean_string($_POST['nit-prove-old']);
-$nameProveUp=consultas::clean_string($_POST['prove-name']);
-$dirProveUp=consultas::clean_string($_POST['prove-dir']);
-$telProveUp=consultas::clean_string($_POST['prove-tel']);
-$webProveUp=consultas::clean_string($_POST['prove-web']);
+$nitOldProveUp = consultas::clean_string($_POST['nit-prove-old']);
+$nameProveUp = consultas::clean_string($_POST['prove-name']);
+$dirProveUp = consultas::clean_string($_POST['prove-dir']);
+$telProveUp = consultas::clean_string($_POST['prove-tel']);
+$webProveUp = consultas::clean_string($_POST['prove-web']);
 
-if(consultas::UpdateSQL("proveedor", "NombreProveedor='$nameProveUp',Direccion='$dirProveUp',Telefono='$telProveUp',PaginaWeb='$webProveUp'", "NITProveedor='$nitOldProveUp'")){
-    echo '<script>
+if (consultas::UpdateSQL("proveedor", "NombreProveedor='$nameProveUp',Direccion='$dirProveUp',Telefono='$telProveUp',PaginaWeb='$webProveUp'", "NITProveedor='$nitOldProveUp'")) {
+  echo '<script>
         swal({
           title: "Proveedor actualizado",
           text: "Los datos del proveedor se actualizaron correctamente",
@@ -28,6 +28,6 @@ if(consultas::UpdateSQL("proveedor", "NombreProveedor='$nameProveUp',Direccion='
           }
         });
     </script>';
-}else{
-    echo '<script>swal("ERROR", "Ocurrió un error inesperado, por favor intente nuevamente", "error");</script>';
+} else {
+  echo '<script>swal("ERROR", "Ocurrió un error inesperado, por favor intente nuevamente", "error");</script>';
 }

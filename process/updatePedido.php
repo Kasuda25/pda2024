@@ -1,12 +1,12 @@
 <?php
 include '../Consultas/consultasSql.php';
 
-$numPediUp=consultas::clean_string($_POST['num-pedido']);
-$estadPediUp=consultas::clean_string($_POST['pedido-status']);
+$numPediUp = consultas::clean_string($_POST['num-pedido']);
+$estadPediUp = consultas::clean_string($_POST['pedido-status']);
 
 
-if(consultas::UpdateSQL("venta", "Estado='$estadPediUp'", "NumPedido='$numPediUp'")){
-    echo '<script>
+if (consultas::UpdateSQL("venta", "Estado='$estadPediUp'", "NumPedido='$numPediUp'")) {
+  echo '<script>
     <    swal({
           title: "Pedido actualizado",
           text: "El pedido se actualizo con éxito",
@@ -26,6 +26,6 @@ if(consultas::UpdateSQL("venta", "Estado='$estadPediUp'", "NumPedido='$numPediUp
           }
         });
     </script>';
-}else{
-    echo '<script>swal("ERROR", "Ocurrió un error inesperado, por favor intente nuevamente", "error");</script>';
+} else {
+  echo '<script>swal("ERROR", "Ocurrió un error inesperado, por favor intente nuevamente", "error");</script>';
 }

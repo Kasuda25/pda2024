@@ -2,9 +2,9 @@
 session_start();
 include '../Consultas/consultasSql.php';
 
-$NumPedidoDel=consultas::clean_string($_POST['num-pedido']);
-if(consultas::DeleteSQL('detalle', "NumPedido='".$NumPedidoDel."'") && consultas::DeleteSQL("venta", "NumPedido='".$NumPedidoDel."'")){
-    echo '<script>
+$NumPedidoDel = consultas::clean_string($_POST['num-pedido']);
+if (consultas::DeleteSQL('detalle', "NumPedido='" . $NumPedidoDel . "'") && consultas::DeleteSQL("venta", "NumPedido='" . $NumPedidoDel . "'")) {
+	echo '<script>
 	    swal({
 	      title: "Pedido eliminado",
 	      text: "El pedido se eliminó con éxito",
@@ -24,6 +24,6 @@ if(consultas::DeleteSQL('detalle', "NumPedido='".$NumPedidoDel."'") && consultas
 	      }
 	    });
 	</script>';
-}else{
-   echo '<script>swal("ERROR", "Ocurrió un error inesperado, por favor intente nuevamente", "error");</script>';
+} else {
+	echo '<script>swal("ERROR", "Ocurrió un error inesperado, por favor intente nuevamente", "error");</script>';
 }

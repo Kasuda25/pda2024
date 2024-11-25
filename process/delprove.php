@@ -2,11 +2,11 @@
 session_start();
 include '../Consultas/consultasSql.php';
 
-$nitProve=consultas::clean_string($_POST['nit-prove']);
-$cons=ejecutar::consultar("SELECT * FROM producto WHERE NITProveedor='$nitProve'");
-if(mysqli_num_rows($cons)<=0){
-    if(consultas::DeleteSQL('proveedor', "NITProveedor='".$nitProve."'")){
-        echo '<script>
+$nitProve = consultas::clean_string($_POST['nit-prove']);
+$cons = ejecutar::consultar("SELECT * FROM producto WHERE NITProveedor='$nitProve'");
+if (mysqli_num_rows($cons) <= 0) {
+	if (consultas::DeleteSQL('proveedor', "NITProveedor='" . $nitProve . "'")) {
+		echo '<script>
 		    swal({
 		      title: "Proveedor eliminado",
 		      text: "Los datos del proveedor se eliminaron exitosamente",
@@ -26,10 +26,10 @@ if(mysqli_num_rows($cons)<=0){
 		      }
 		    });
 		</script>';
-    }else{
-       echo '<script>swal("ERROR", "Ocurrió un error inesperado, por favor intente nuevamente", "error");</script>'; 
-    }
-}else{
-    echo '<script>swal("ERROR", "Lo sentimos no podemos eliminar el proveedor ya que existen productos asociados a este proveedor", "error");</script>';
+	} else {
+		echo '<script>swal("ERROR", "Ocurrió un error inesperado, por favor intente nuevamente", "error");</script>';
+	}
+} else {
+	echo '<script>swal("ERROR", "Lo sentimos no podemos eliminar el proveedor ya que existen productos asociados a este proveedor", "error");</script>';
 }
 mysqli_free_result($cons);

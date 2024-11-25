@@ -2,11 +2,11 @@
 <html lang="es">
 <head>
     <title>Inicio</title>
-    <?php include 'C:\xampp\htdocs\pda\Include\links.html'; ?>
+    <?php include 'C:\xampp\htdocs\pda2024\Include\links.html'; ?>
 </head>
 
 <body id="container-page-index">
-    <?php include 'C:\xampp\htdocs\pda\include\navbar.php'; ?>
+    <?php include 'C:\xampp\htdocs\pda2024\Include\navbar.php'; ?>
     
     
 
@@ -28,7 +28,7 @@
                        <img class="img-producto" src="imagenes/img-products/<?php if($fila['Imagen']!="" && is_file("./imagenes/img-products/".$fila['Imagen'])){ echo $fila['Imagen']; }else{ echo "default.png"; } ?>">
                        <div class="caption">
                        		<h3><?php echo $fila['Marca']; ?></h3>
-                            <p><?php echo $fila['NomProducto']; ?></p>
+                            <p><?php echo $fila['NombreProd']; ?></p>
                             <?php if($fila['Descuento']>0): ?>
                              <p>
                              <?php

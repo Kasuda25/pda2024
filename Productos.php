@@ -57,9 +57,9 @@ include './Consultas/consultasSql.php';
           </div>
         </div>
         <?php
-        $categoria = consultas::clean_string($_GET['categ']);
-        if (isset($categoria) && $categoria != "") {
-        ?>
+        $categoria = isset($_GET['categ']) ? consultas::clean_string($_GET['categ']) : '';
+        if (!empty($categoria)) {
+          ?>
           <div class="row">
             <?php
             $mysqli = mysqli_connect(SERVER, USER, PASS, BD);
@@ -168,7 +168,7 @@ include './Consultas/consultasSql.php';
           </div>
       <?php
         } else {
-          echo '<h2 class="text-center">Por favor seleccione una categoría para empezar</h2>';
+            echo '<h2 class="text-center">Por favor seleccione una categoría para empezar</h2>';
         }
       else :
         echo '<h2 class="text-center">Lo sentimos, no hay productos ni categorías registradas en la tienda</h2>';

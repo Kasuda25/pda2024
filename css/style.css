@@ -1,4 +1,4 @@
-/* ========================================= General styles ======================================*/
+
 @font-face {
     font-family: 'FontFamilyLogo';
     src: url('../fonts/goodtime-webfont.woff2') format('woff2'),
@@ -49,7 +49,7 @@ nav{
     width: 100%;
     position: fixed;
     top: 0px;
-    background-color: #800000;
+    background-color: #000000;
     box-shadow: 2px 0px 7px #626262;
 	z-index: 50;
 }
@@ -110,7 +110,7 @@ footer{
     padding: 40px 0px;
 }
 .text-footer{
-    color: #b40000;
+    color: #000000;
 }
 footer a{
     color: #fff;

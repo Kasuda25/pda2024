@@ -58,12 +58,10 @@ if (mysqli_num_rows($verdata) >= 1) {
     }
     if (consultas::InsertSQL("venta", "Fecha, NIT, TotalPagar, Estado, NumeroDeposito, TipoEnvio, Adjunto", "'" . date('d-m-Y') . "','$Cedclien','$suma','$StatusV','$NumDepo','$tipoenvio','$comprobanteF'")) {
 
-      /*recuperando el número del pedido actual*/
       $verId = ejecutar::consultar("SELECT * FROM venta WHERE NIT='$Cedclien' ORDER BY NumPedido desc limit 1");
       $fila = mysqli_fetch_array($verId, MYSQLI_ASSOC);
       $Numpedido = $fila['NumPedido'];
 
-      /*Insertando datos en detalle de la venta*/
       foreach ($_SESSION['carro'] as $carro) {
         $preP = ejecutar::consultar("SELECT * FROM producto WHERE CodigoProd='" . $carro['producto'] . "'");
         $filaP = mysqli_fetch_array($preP, MYSQLI_ASSOC);
@@ -71,7 +69,6 @@ if (mysqli_num_rows($verdata) >= 1) {
         consultas::InsertSQL("detalle", "NumPedido, CodigoProd, CantidadProductos, PrecioProd", "'$Numpedido', '" . $carro['producto'] . "', '" . $carro['cantidad'] . "', '$pref'");
         mysqli_free_result($preP);
 
-        /*Restando stock a cada producto seleccionado en el carrito*/
         $prodStock = ejecutar::consultar("SELECT * FROM producto WHERE CodigoProd='" . $carro['producto'] . "'");
         while ($fila = mysqli_fetch_array($prodStock, MYSQLI_ASSOC)) {
           $existencias = $fila['Stock'];
@@ -80,7 +77,6 @@ if (mysqli_num_rows($verdata) >= 1) {
         }
       }
 
-      /*Vaciando el carrito*/
       unset($_SESSION['carro']);
       echo '<script>
       swal({

@@ -33,8 +33,8 @@
                                         echo "default.png";
                                     } ?>">
                                 <div class="caption">
-                                    <h3><?php echo $fila['Marca']; ?></h3>
-                                    <p><?php echo $fila['NombreProd']; ?></p>
+                                    <h3><?php echo $fila['NombreProd']; ?></h3>
+                                    <p><?php echo $fila['Marca']; ?></p>
                                     <?php if ($fila['Descuento'] > 0): ?>
                                         <p>
                                             <?php

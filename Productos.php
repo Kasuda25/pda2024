@@ -94,8 +94,8 @@ include './Consultas/consultasSql.php';
                     } ?>
                            ">
                     <div class="caption">
-                      <h3><?php echo $prod['Marca']; ?></h3>
-                      <p><?php echo $prod['NombreProd']; ?></p>
+                      <h3><?php echo $prod['NombreProd']; ?></h3>
+                      <p><strong><?php echo $prod['Marca']; ?></strong></p>
                       <?php if ($prod['Descuento'] > 0): ?>
                         <p>
                           <?php

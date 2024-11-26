@@ -5,7 +5,7 @@ if (isset($_POST['codigo'])) {
     foreach ($_SESSION['carro'] as $indice => $producto) {
         if ($producto['producto'] == $codigo) {
             unset($_SESSION['carro'][$indice]);
-            $_SESSION['carro'] = array_values($_SESSION['carro']); // Reindexar el array
+            $_SESSION['carro'] = array_values($_SESSION['carro']);
             break;
         }
     }
